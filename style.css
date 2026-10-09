@@ -262,7 +262,7 @@
  }
 
  .cart-summary button:hover{
- background: #1c4e94;
+ background: #2563eb;
  }
 
  #checkout-form{
@@ -426,7 +426,7 @@
  color: white;
  }
 
-@media screen and (max-width: 844px) {
+ @media screen and (max-width: 844px) {
  * {
  box-sizing: border-box;
  }
