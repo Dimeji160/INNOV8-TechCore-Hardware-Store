@@ -5,7 +5,7 @@
  }
 
  body {
- font-family: Arial, Helvetica, sans-serif;
+ font-family: "Google Sans", Arial, sans-serif;
  background-color: #f5f7fb;
  color: #1e1e1e;
  line-height: 1.6;
@@ -92,6 +92,8 @@
  max-width: 650px;
  margin-bottom: 30px;
  color: #e2e8f0;
+ font-family: "Plus Jakarta Sans", sans-serif;
+ font-weight: 700;
  }
 
  .categories, .products, .cart, .checkout, .about, .contact{
@@ -105,22 +107,25 @@
  margin-bottom: 45px;
  }
 
- .category-container{
+ .category-container {
  display: grid;
- grid-template-columns: repeat(5, 1fr);
- gap: 20px; 
+ grid-template-columns: repeat(5, minmax(0, 1fr));
+ gap: 20px;
+ width: 100%;
+ box-sizing: border-box;
+ align-items: start;
  }
 
- .category{
+ .category {
  background: #f8fafc;
  border: 1px solid #e2e8f0;
  padding: 20px 18px;
  text-align: center;
  border-radius: 10px;
- transition: 0.3s;
  box-sizing: border-box;
  min-width: 0;
- } 
+ margin: 0;
+ }
 
  .category:hover{
  background-color: #e2e8f0;
@@ -128,23 +133,19 @@
  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
  }
 
- .category h3{
+ .category h3 {
  color: #075985;
- margin-bottom: 8px;
- font-size: 15px;
+ margin: 0 0 8px;
+ font-size: 15px; 
  }
 
- .category p{
+ .category p {
  color: #000000;
  font-size: 14px;
- }
-
- 
- .products h2{
- text-align: center;
- color: #172554;
- font-size: 28px;
- margin-bottom: 30px;
+ margin: 0;
+ line-height: 1.5;
+ font-family: "Google Sans", Arial, sans-serif;
+ font-weight: 600;
  }
 
  .products-container{
@@ -192,9 +193,11 @@
 
  .product-card p{
  color: black;
- font-size: 14px;
+ font-size: 20px;
  line-height: 1.6;
  margin-bottom: 10px;
+ font-family: "Google Sans", Arial, sans-serif;
+ font-weight: 500;
  }
 
  .product-card .add-to-cart{
@@ -247,7 +250,9 @@
  justify-content: space-between;
  margin-bottom: 15px;
  font-weight: bold;
+ font-family: "DM Sans", sans-serif; 
  }
+
 
  .cart-summary h3{
  display: flex;
@@ -523,7 +528,7 @@
  }
 
  .hero-content p {
- font-size: 15px;
+ font-size: 20px;
  line-height: 1.6;
  margin-bottom: 20px;
  }
@@ -559,11 +564,11 @@
  }
 
  .category h3 {
- font-size: 16px;
+ font-size: 20px;
  }
 
  .category p {
- font-size: 13px;
+ font-size: 15px;
  line-height: 1.5;
  }
 
@@ -594,7 +599,7 @@
  }
 
  .product-card p {
- font-size: 14px;
+ font-size: 15px;
  line-height: 1.5;
  }
 
@@ -691,7 +696,7 @@
 
  .about p {
  width: 100%;
- font-size: 14px;
+ font-size: 19px;
  line-height: 1.7;
  letter-spacing: 0;
  }
