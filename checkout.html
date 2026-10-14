@@ -43,6 +43,17 @@
  <input type="text" id="state" placeholder=" Enter your state" required>
  </div>
 
+  <!--Deliver Location-->
+ <div class="form-group">
+ <label for="delivery-location">Delivery Location</label>
+ <select id="delivery-location" required>
+ <option value="">Select delivery location</option>
+ <option value="1000">Abuja - ₦1000</option>
+ <option value="3000">Lagos - ₦3000</option>
+ <option value="5000">other location - ₦5000</option>
+ </select>
+ </div>
+
  <!--PAYMENT-->
  <div class="payment">
  <h3>Payment Method</h3>
@@ -57,13 +68,15 @@
  <!--ORDER SUMMARY-->
  <div class="order-summary">
  <h3>Order Summary</h3>
- <p>Your selected items will be displayed here.</p>
- <p>Total: <span id="order-total">₦0</span></p>
+ <div id="checkout-items"></div>
+ <p>Subtotal: <span id="checkout-subtotal">₦0</span></p>
+ <p>Delivery: <span id="checkout-delivery">₦0</span></p>
+ <h3>Total: <span id="order-total">₦0</span></h3>
  </div>
  <button type="submit"class="btn">Place Order</button>
-
- </div> 
+ </form> 
  </section>
-
  </body>
  </html>
+
+ <script src="script.js" defer></script>
