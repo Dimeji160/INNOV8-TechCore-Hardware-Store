@@ -1,4 +1,3 @@
-
  // Load saved products from localStorage
  let cart = JSON.parse(localStorage.getItem("cart")) || [];
  // Find the cart items container
@@ -80,9 +79,7 @@
  finalTotal = 0;
  }
  // Display the final total
- if (totalCost) {
- totalCost.textContent =
- "₦" + finalTotal.toLocaleString("en-NG");
+ if (totalCost) {totalCost.textContent = "₦" + finalTotal.toLocaleString("en-NG");
  }
  }
  // Register the Clear Cart button event
