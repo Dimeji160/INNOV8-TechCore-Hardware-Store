@@ -1,22 +1,27 @@
- // Load saved products from localStorage
+ /* ==================================================
+ SECTION 1: CART ARRAY AND LOCAL STORAGE
+ ================================================== */
+ // Load saved products from Local Storage
  let cart = JSON.parse(localStorage.getItem("cart")) || [];
- // Find the cart items container
+ /* ==================================================
+ SECTION 2: HTML ELEMENT SELECTORS
+ ================================================== */
+ // Cart page elements
  const cartItems = document.querySelector("#cart-items");
- // Find the total items element
  const totalItems = document.querySelector("#total-items");
- // Find the delivery cost element
  const deliveryCost = document.querySelector("#delivery-cost");
- // Find the total cost element
  const totalCost = document.querySelector("#total-cost");
- // Find the Clear Cart button
+ // Cart buttons
  const clearCartButton = document.querySelector("#clear-cart-button");
- // Find the Checkout button
  const checkoutButton = document.querySelector("#checkout-button");
- // Find the delivery location selector
+ // Checkout delivery selector
  const deliveryLocation = document.querySelector("#delivery-location");
- // Create a function to display cart products
+
+ /* ==================================================
+ SECTION 3: DISPLAY CART PRODUCTS AND CALCULATE TOTAL
+ ================================================== */
  function updateCartDisplay() {
- // Check whether the cart container exists
+ // Stop if this is not the cart page
  if (!cartItems) {
  return;
  }
@@ -24,19 +29,18 @@
  cartItems.innerHTML = "";
  // Start the total at zero
  let total = 0;
- // Loop through all products in the cart
+ // Loop through every product in the cart
  for (let i = 0; i < cart.length; i++) {
- // Create a container for the cart product
+ // Create a container for the product
  const item = document.createElement("div");
  item.className = "cart-product";
  // Create the product image
  const image = document.createElement("img");
  image.src = cart[i].image;
  image.alt = cart[i].name;
- // Set the image dimensions
  image.width = 100;
  image.height = 100;
- // Create the product details
+ // Create the product name and price
  const details = document.createElement("p");
  details.textContent =
  cart[i].name + " - ₦" +
@@ -46,22 +50,19 @@
  item.appendChild(details);
  // Create the Remove button
  const removeButton = document.createElement("button");
- // Add text to the button
  removeButton.textContent = "Remove";
- // Give the button a CSS class
  removeButton.className = "remove-button";
- // Listen for a click on the Remove button
+ // Remove the selected product
  removeButton.addEventListener("click", function() {
- // Remove only the selected product
  cart.splice(i, 1);
  // Save the updated cart
  localStorage.setItem("cart", JSON.stringify(cart));
- // Refresh the cart display and totals
+ // Refresh products and totals
  updateCartDisplay();
  });
- // Add the Remove button beside the product
+ // Add the Remove button to the product container
  item.appendChild(removeButton);
- // Display the product inside the cart
+ // Display the product on the cart page
  cartItems.appendChild(item);
  // Add the product price to the total
  total = total + cart[i].price;
@@ -70,67 +71,72 @@
  if (totalItems) {
  totalItems.textContent = cart.length;
  }
- // Read the delivery charge
- const delivery = deliveryCost ? Number(deliveryCost.textContent.replace(/[₦,]/g, "")): 0;
+ // Read the delivery charge on the cart page
+ const delivery = deliveryCost ? Number(deliveryCost.textContent.replace(/[₦,]/g, "")) : 0;
  // Calculate the final total
  let finalTotal = total + delivery;
- // Show zero when the cart is empty
+ // Keep the total at zero if the cart is empty
  if (cart.length === 0) {
  finalTotal = 0;
  }
  // Display the final total
- if (totalCost) {totalCost.textContent = "₦" + finalTotal.toLocaleString("en-NG");
+ if (totalCost) {
+ totalCost.textContent = "₦" + finalTotal.toLocaleString("en-NG");
  }
- }
- // Register the Clear Cart button event
+ } //close updatecartdisplay 
+
+ /* ==================================================
+ SECTION 4: CLEAR CART BUTTON
+ ================================================== */
  if (clearCartButton) {
  clearCartButton.addEventListener("click", function() {
  // Empty the cart array
  cart = [];
- // Remove saved products from localStorage
+ // Remove saved products from Local Storage
  localStorage.removeItem("cart");
  // Refresh the cart display and totals
  updateCartDisplay();
  });
- }
+ } 
+
+ /* ==================================================
+ SECTION 5: ADD TO CART BUTTONS
+ ================================================== */
  // Select all Add to Cart buttons
  const addToCartButtons = document.querySelectorAll(".add-to-cart");
- // Loop through each Add to Cart button
+ // Listen for clicks on each button
  addToCartButtons.forEach(function(button) {
- // Listen for a click
  button.addEventListener("click", function() {
  // Find the product card
  const productCard = button.closest(".product-card");
  // Get the product name
- const productName =
- productCard.querySelector("h3").textContent;
+ const productName = productCard.querySelector("h3").textContent;
  // Get the product price
- const productPrice =
- productCard.querySelector(".price").textContent;
+ const productPrice = productCard.querySelector(".price").textContent;
  // Convert the price into a number
- const price = Number(productPrice.replace(/[₦,]/g, ""));
- // Find the product image
- const productImage =
- productCard.querySelector("img").getAttribute("src");
- // Create a product object
+ const price = Number(productPrice.replace(/[₦,]/g, "")
+ );
+ // Get the product image path
+ const productImage = productCard.querySelector("img").getAttribute("src");
+ // Create the product object
  const product = {
  name: productName,
  price: price,
  image: productImage
  };
- // Add the product to the cart array
+ // Add the product object to the cart array
  cart.push(product);
- // Save the updated cart
+ // Save the updated cart in Local Storage
  localStorage.setItem("cart", JSON.stringify(cart));
  // Refresh the cart display
  updateCartDisplay();
  });
  });
- // Display saved products when the page opens
- updateCartDisplay();
- // Check whether the Checkout button exists
+
+ /* ==================================================
+ SECTION 6: CHECKOUT BUTTON
+ ================================================== */
  if (checkoutButton) {
- // Listen for a click
  checkoutButton.addEventListener("click", function() {
  // Check whether the cart is empty
  if (cart.length === 0) {
@@ -141,14 +147,22 @@
  window.location.href = "checkout.html";
  });
  }
- // Update total when delivery location changes
+
+ /* ==================================================
+ SECTION 7: DELIVERY LOCATION CHANGE
+ ================================================== */
+ // Update the checkout summary when delivery changes
  if (deliveryLocation) {
  deliveryLocation.addEventListener("change", function() {
  updateCheckoutSummary();
  });
-}
- // Calculate and display the checkout order summary
+ }
+
+ /* ==================================================
+ SECTION 8: CHECKOUT SUMMARY AND TOTAL CALCULATION
+ ================================================== */
  function updateCheckoutSummary() {
+ // Find checkout page elements
  const checkoutItems = document.querySelector("#checkout-items");
  const checkoutSubtotal = document.querySelector("#checkout-subtotal");
  const checkoutDelivery = document.querySelector("#checkout-delivery");
@@ -157,31 +171,50 @@
  if (!checkoutItems) {
  return;
  }
- // Display the products in the order
+ // Clear the previous order summary
  checkoutItems.innerHTML = "";
+ // Start the subtotal at zero
  let subtotal = 0;
+ // Display each product in the order
  for (let i = 0; i < cart.length; i++) {
  const item = document.createElement("p");
  item.textContent =
  cart[i].name + " - ₦" +
  cart[i].price.toLocaleString("en-NG");
  checkoutItems.appendChild(item);
+ // Add the product price to the subtotal
  subtotal = subtotal + cart[i].price;
  }
- // Read the selected delivery charge
- const delivery = deliveryLocation ? Number(deliveryLocation.value): 0;
+ // Get the selected delivery charge
+ const delivery = deliveryLocation ? Number(deliveryLocation.value) : 0;
  // Calculate the final amount
  const finalTotal = cart.length === 0 ? 0 : subtotal + delivery;
- // Display the amounts
- if (checkoutSubtotal) {checkoutSubtotal.textContent = "₦" + subtotal.toLocaleString("en-NG");}
- if (checkoutDelivery) {checkoutDelivery.textContent = "₦" + delivery.toLocaleString("en-NG");}
- if (orderTotal) {orderTotal.textContent = "₦" + finalTotal.toLocaleString("en-NG");}
+ // Display the subtotal
+ if (checkoutSubtotal) {
+ checkoutSubtotal.textContent = "₦" + subtotal.toLocaleString("en-NG");}
+ // Display the delivery charge
+ if (checkoutDelivery) {
+ checkoutDelivery.textContent = "₦" + delivery.toLocaleString("en-NG");
  }
- // Display order summary when page opens
+ // Display the final order total
+ if (orderTotal) {
+ orderTotal.textContent = "₦" + finalTotal.toLocaleString("en-NG");}
+ }
+
+ /* ==================================================
+ SECTION 9: INITIAL PAGE DISPLAY
+ ================================================== */
+ // Display saved cart products when the page opens
+ updateCartDisplay();
+ // Display the saved order summary when checkout opens
  updateCheckoutSummary();
+
+ /* ==================================================
+ SECTION 10: CHECKOUT FORM
+ ================================================== */
  // Find the checkout form
  const checkoutForm = document.querySelector("#checkout-form");
- // Check whether the form exists
+ // Handle form submission
  if (checkoutForm) {
  checkoutForm.addEventListener("submit", function(event) {
  // Prevent the page from reloading
@@ -189,4 +222,3 @@
  // Place Order functionality will be added here
  });
  }
-
