@@ -3,6 +3,7 @@
  ================================================== */
  // Load saved products from Local Storage
  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+ 
  /* ==================================================
  SECTION 2: HTML ELEMENT SELECTORS
  ================================================== */
@@ -27,6 +28,12 @@
  }
  // Clear the previous cart display
  cartItems.innerHTML = "";
+ // Show a message if the cart is empty
+ if (cart.length === 0) {
+ const emptyMessage = document.createElement("p");
+ emptyMessage.textContent = "Your cart is empty. Start shopping!";
+ cartItems.appendChild(emptyMessage);
+ }
  // Start the total at zero
  let total = 0;
  // Loop through every product in the cart
@@ -130,6 +137,11 @@
  localStorage.setItem("cart", JSON.stringify(cart));
  // Refresh the cart display
  updateCartDisplay();
+ // Tell the customer the product was added
+ button.textContent = "✓ Added to Cart";
+ setTimeout(function() {
+ button.textContent = "Add to Cart";
+ }, 2000);
  });
  });
 
@@ -210,15 +222,43 @@
  updateCheckoutSummary();
 
  /* ==================================================
- SECTION 10: CHECKOUT FORM
+ SECTION 10: PLACE ORDER 
  ================================================== */
- // Find the checkout form
+ // Find the checkout form in checkout.html
  const checkoutForm = document.querySelector("#checkout-form");
- // Handle form submission
+ // Check whether the checkout form exists
  if (checkoutForm) {
+ // Run this function when the customer clicks Place Order
  checkoutForm.addEventListener("submit", function(event) {
- // Prevent the page from reloading
+ // Stop the form from refreshing the page
  event.preventDefault();
- // Place Order functionality will be added here
- });
+ // Find the payment method selected by the customer
+ const paymentMethod = document.querySelector('input[name="payment"]:checked');
+ // Check whether the cart is empty
+ if (cart.length === 0) {
+ // Tell the customer to add a product first
+ alert("Your cart is empty. Please add a product first.");
+ // Stop the function from continuing
+ return;
  }
+ // Check whether the customer selected a payment method
+ if (!paymentMethod) {
+ // Ask the customer to select a payment method
+ alert("Please select a payment method.");
+ // Stop the function from continuing
+ return;
+ }
+ // Display an order confirmation and the selected payment value
+ alert("Order placed successfully!\n" + "Payment Method: " + paymentMethod.value);
+ // Empty the cart array
+ cart = [];
+ // Remove the saved cart from localStorage
+ localStorage.removeItem("cart"); 
+ // Refresh the cart display
+ updateCartDisplay();
+ // Refresh the checkout summary
+ updateCheckoutSummary();
+ // Return the customer to the home page
+ window.location.href = "index.html";
+ });
+}

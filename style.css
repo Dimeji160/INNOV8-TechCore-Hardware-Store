@@ -60,6 +60,15 @@
  cursor: pointer;
  }
 
+ #menu:checked + .menu-icon {
+ font-size: 0;
+ }
+
+ #menu:checked + .menu-icon::after {
+ content: "\00D7";
+ font-size: 35px;
+ }
+
  #hero{
  min-height: 500px;
  display: flex;
