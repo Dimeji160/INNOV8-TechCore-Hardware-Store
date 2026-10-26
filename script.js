@@ -17,6 +17,14 @@
  const checkoutButton = document.querySelector("#checkout-button");
  // Checkout delivery selector
  const deliveryLocation = document.querySelector("#delivery-location");
+ // Empty cart modal
+ const cartModal = document.querySelector("#cart-modal");
+ const closeModal = document.querySelector("#close-modal");
+
+ // Order success modal
+ const successModal = document.querySelector("#success-modal");
+ const modalPaymentMethod = document.querySelector("#modal-payment-method");
+ const closeSuccessModal = document.querySelector("#close-success-modal");
 
  /* ==================================================
  SECTION 3: DISPLAY CART PRODUCTS AND CALCULATE TOTAL
@@ -137,7 +145,7 @@
  localStorage.setItem("cart", JSON.stringify(cart));
  // Refresh the cart display
  updateCartDisplay();
- // Tell the customer the product was added
+ // Tell the customer the product was added 
  button.textContent = "✓ Added to Cart";
  setTimeout(function() {
  button.textContent = "Add to Cart";
@@ -148,15 +156,22 @@
  /* ==================================================
  SECTION 6: CHECKOUT BUTTON
  ================================================== */
- if (checkoutButton) {
+ if (checkoutButton) 
  checkoutButton.addEventListener("click", function() {
- // Check whether the cart is empty
+
  if (cart.length === 0) {
- alert("Your cart is empty. Please add a product first.");
+ if (cartModal) {
+ cartModal.style.display = "flex";
+ }
  return;
  }
- // Open the checkout page
+
  window.location.href = "checkout.html";
+ });
+ 
+ // Close the empty cart modal
+ if (closeModal) { closeModal.addEventListener("click", function() {
+ cartModal.style.display = "none";
  });
  }
 
@@ -224,41 +239,47 @@
  /* ==================================================
  SECTION 10: PLACE ORDER 
  ================================================== */
- // Find the checkout form in checkout.html
- const checkoutForm = document.querySelector("#checkout-form");
- // Check whether the checkout form exists
- if (checkoutForm) {
- // Run this function when the customer clicks Place Order
- checkoutForm.addEventListener("submit", function(event) {
- // Stop the form from refreshing the page
- event.preventDefault();
- // Find the payment method selected by the customer
- const paymentMethod = document.querySelector('input[name="payment"]:checked');
- // Check whether the cart is empty
- if (cart.length === 0) {
- // Tell the customer to add a product first
- alert("Your cart is empty. Please add a product first.");
- // Stop the function from continuing
- return;
- }
- // Check whether the customer selected a payment method
- if (!paymentMethod) {
- // Ask the customer to select a payment method
- alert("Please select a payment method.");
- // Stop the function from continuing
- return;
- }
- // Display an order confirmation and the selected payment value
- alert("Order placed successfully!\n" + "Payment Method: " + paymentMethod.value);
- // Empty the cart array
- cart = [];
- // Remove the saved cart from localStorage
- localStorage.removeItem("cart"); 
- // Refresh the cart display
- updateCartDisplay();
- // Refresh the checkout summary
- updateCheckoutSummary();
- // Return the customer to the home page
- window.location.href = "index.html";
- });
+ // SECTION 10: PLACE ORDER
+
+const checkoutForm = document.querySelector("#checkout-form");
+
+if (checkoutForm) {
+    checkoutForm.addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const paymentMethod = document.querySelector(
+            'input[name="payment"]:checked'
+        );
+
+        // Check whether the cart is empty
+        if (cart.length === 0) {
+            alert("Your cart is empty. Please add a product first.");
+            return;
+        }
+
+        // Check whether a payment method was selected
+        if (!paymentMethod) {
+            alert("Please select a payment method.");
+            return;
+        }
+
+        // Show the selected payment method in the modal
+        if (modalPaymentMethod && successModal) {
+            modalPaymentMethod.textContent = paymentMethod.value;
+            successModal.style.display = "flex";
+        }
+
+        // Clear the cart after placing the order
+        cart = [];
+        localStorage.removeItem("cart");
+        updateCartDisplay();
+        updateCheckoutSummary();
+    });
+}
+
+// Close the success modal when OK is clicked
+if (closeSuccessModal && successModal) {
+    closeSuccessModal.addEventListener("click", function() {
+        successModal.style.display = "none";
+    });
 }
