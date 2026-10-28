@@ -247,10 +247,10 @@
 
  // Tell the customer the product was added 
  //Changes the text on the clicked button right away to give the user immediate visual confirmation.
- button.textContent = "✓ Added to Cart";
+ button.innerHTML = '✓ Added to Cart <i class="fa-solid fa-circle-plus"></i>';
  //• Waits for exactly 2 seconds (2000 milliseconds) and then reverts the button text back to its original "Add to Cart" state.
  setTimeout(function() {
- button.textContent = "Add to Cart";
+ button.innerHTML = 'Add to Cart <i class="fa-solid fa-circle-plus"></i>';
  }, 2000);
  });
  });
@@ -415,4 +415,56 @@
  //Changes the CSS of the modal to hidden so it instantly disappears from the user's screen.
  successModal.style.display = "none";
  });
+ }
+
+ /* ==================================================
+ SECTION 11: CLOSE HAMBURGER MENU WHEN A LINK IS CLICKED
+ ================================================== */
+
+ // Find the hamburger menu checkbox
+ const menu = document.getElementById("menu");
+
+ // Find all navigation links
+ const navLinks = document.querySelectorAll(".nav-links a");
+
+ // Close the menu when any navigation link is clicked
+ navLinks.forEach(function(link) {
+ link.addEventListener("click", function() {
+ menu.checked = false;
+ });
+ });
+
+ /* ==================================================
+ SECTION 12: HERO IMAGE SLIDESHOW 
+ ================================================== */
+
+ const heroSlides = document.querySelectorAll(".hero-slide");
+
+ let currentSlide = 0;
+
+ if (heroSlides.length > 1) {
+ setInterval(function () {
+
+ // Move the current image out to the left
+ heroSlides[currentSlide].style.transform = "translateX(-100%)";
+ heroSlides[currentSlide].classList.remove("active");
+
+ // Move to the next image
+ currentSlide = (currentSlide + 1) % heroSlides.length;
+
+ // Position the next image on the right
+ heroSlides[currentSlide].style.transition = "none";
+ heroSlides[currentSlide].style.transform = "translateX(100%)";
+
+ // Allow the browser to apply the starting position
+ void heroSlides[currentSlide].offsetWidth;
+
+ // Slide the next image into view
+ heroSlides[currentSlide].style.transition =
+ "transform 0.8s ease-in-out, opacity 0.8s ease-in-out";
+
+ heroSlides[currentSlide].classList.add("active");
+ heroSlides[currentSlide].style.transform = "translateX(0)";
+
+ }, 4000);
  }
