@@ -638,7 +638,7 @@ flex-direction: column;
  width: 70%;
  height: calc(100vh - 60px);
  padding: 40px 30px;
- background: linear-gradient(180deg, #1c5ec9, #1d4ba1);
+ background: linear-gradient(180deg, #05122a, #061b44);
  z-index: 1001; 
  }
 

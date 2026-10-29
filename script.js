@@ -437,34 +437,47 @@
  /* ==================================================
  SECTION 12: HERO IMAGE SLIDESHOW 
  ================================================== */
-
+ 
+ //It selects all the images with the class hero-slide from your HTML and stores them in the heroSlides variable.
  const heroSlides = document.querySelectorAll(".hero-slide");
 
+ //It tells JavaScript to start the slideshow from the first image.
  let currentSlide = 0;
 
+ //It checks whether there are at least two hero images before starting the slideshow.
  if (heroSlides.length > 1) {
+ //It creates a function that will repeatedly run the slideshow instructions at the time interval specified at the end of the code.
  setInterval(function () {
 
  // Move the current image out to the left
+ //It moves the currently selected image to the left so that it leaves the visible hero section.
  heroSlides[currentSlide].style.transform = "translateX(-100%)";
+ //It removes the active class from the current image so that it is no longer marked as the active slide.
  heroSlides[currentSlide].classList.remove("active");
 
  // Move to the next image
+ //It calculates the index of the next image. When the slideshow reaches the last image, the modulus operator makes it return to the first image.
  currentSlide = (currentSlide + 1) % heroSlides.length;
-
+ 
  // Position the next image on the right
+ //It temporarily disables animation so that JavaScript can position the next image on the right without showing that movement.
  heroSlides[currentSlide].style.transition = "none";
+ //It places the next image to the right of its original position, preparing it to slide into the hero section.
  heroSlides[currentSlide].style.transform = "translateX(100%)";
 
  // Allow the browser to apply the starting position
+ //Reading offsetWidth can force the browser to calculate pending layout changes. This helps ensure that the image's right-side starting position is applied before the sliding transition begins.
  void heroSlides[currentSlide].offsetWidth;
 
  // Slide the next image into view
+ //It enables smooth animation for the next image's movement and visibility changes.
  heroSlides[currentSlide].style.transition =
  "transform 0.8s ease-in-out, opacity 0.8s ease-in-out";
 
+ //It adds the active class to the next image, allowing the CSS rules for active slides to apply.
  heroSlides[currentSlide].classList.add("active");
+ //It moves the next image from the right side into its original position. Because the transition was enabled in Line 16, this movement is animated smoothly.
  heroSlides[currentSlide].style.transform = "translateX(0)";
-
+ //It tells JavaScript to repeat the slideshow instructions every four seconds.
  }, 4000);
  }
