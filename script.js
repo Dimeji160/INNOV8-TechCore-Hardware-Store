@@ -70,7 +70,7 @@
  //Checks if the cart arrays contains zero items.
  if (cart.length === 0) {
  
-    //Creates a new, empty HTML paragraph element(<p>) in the browser's memory.
+ //Creates a new, empty HTML paragraph element(<p>) in the browser's memory.
  const emptyMessage = document.createElement("p");
  
  //Fills that paragraph with a helpful reminder message for the shopper.
@@ -220,7 +220,7 @@
  //Loops through each of those buttons one by one so it can apply the click listener to all of them.
  addToCartButtons.forEach(function(button) {
  
-    //Tells the browser to listen for a click on the specific button that was pressed and runs the function inside.
+ //Tells the browser to listen for a click on the specific button that was pressed and runs the function inside.
  button.addEventListener("click", function() {
 
  // Find the product card
@@ -282,16 +282,16 @@
  //Checks if the checkout button exists on the current page so the code doesn't crash on pages without it.
  if (checkoutButton) 
  
-    //Tells the browser to listen for a click on the checkout button and runs the code inside when clicked.
+ //Tells the browser to listen for a click on the checkout button and runs the code inside when clicked.
  checkoutButton.addEventListener("click", function() {
  
-    //Checks if the shopping cart array is completely empty.
+ //Checks if the shopping cart array is completely empty.
  if (cart.length === 0) {
  
-    //Checks if the cart modal popup element exists on the page.
+ //Checks if the cart modal popup element exists on the page.
  if (cartModal) {
  
-    //Opens and displays the cart modal popup on the screen (likely to show the user that their cart is empty).
+ //Opens and displays the cart modal popup on the screen (likely to show the user that their cart is empty).
  cartModal.style.display = "flex";
  }
  
@@ -307,8 +307,7 @@
  //Checks if the modal's close button (like an "X" or "Close" button) exists on the current page to prevent errors.
  if (closeModal) { closeModal.addEventListener("click", function() {
  
-    //Changes the CSS of the cart modal to hidden, making the popup window instantly disappear from the user's screen.
- cartModal.style.display = "none";
+ 
  });
  }
 
