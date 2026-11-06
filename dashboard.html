@@ -1,0 +1,189 @@
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+ <meta charset="UTF-8"> 
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>My Dashboard | INNOV8 Tech-Core</title>
+
+ <link rel="stylesheet" href="style.css">
+
+ <link rel="stylesheet"
+ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+ </head>
+
+ <body class="dashboard-page">
+ <!-- DASHBOARD HEADER -->
+ <header class="dashboard-header">
+ <a href="index.html" class="dashboard-logo">INNOV8 <span>Tech-Core</span></a>
+ <div class="dashboard-header-right">
+ <a href="index.html"><i class="fa-solid fa-store"></i>Visit Store</a>
+ </div>
+ </header>
+
+ <!-- DASHBOARD LAYOUT -->
+ <div class="dashboard-layout">
+ 
+ <!-- SIDEBAR -->
+ <aside class="dashboard-sidebar">
+ <div class="dashboard-user">
+ <div class="user-avatar">D</div>
+ <div>
+ <h3>Customer Name</h3>
+ <p>customer@email.com</p>
+ </div>
+ </div>
+
+ <!-- DASHBOARD NAVIGATION -->
+ <nav class="dashboard-menu">
+ <a href="#overview" class="active">
+ <i class="fa-solid fa-house"></i>Overview
+ </a>
+ <a href="#profile">
+ <i class="fa-solid fa-user"></i>My Profile
+ </a>
+ <a href="#orders">
+ <i class="fa-solid fa-box"></i>My Orders
+ </a> 
+
+ <a href="#addresses">
+ <i class="fa-solid fa-location-dot"></i>Addresses</a>
+ <a href="#settings">
+ <i class="fa-solid fa-gear"></i>Settings</a>
+ <a href="#" class="logout-link dashboard-logout">
+ <i class="fa-solid fa-right-from-bracket"></i>Logout</a>
+ </nav>
+ </aside>
+
+ <!-- MAIN DASHBOARD CONTENT -->
+ <main class="dashboard-content">
+ 
+ <!-- OVERVIEW -->
+ <section id="overview">
+ <div class="dashboard-welcome">
+ <h1>Welcome Back, Customer!</h1>
+ <p>Here's an overview of your INNOV8 Tech-Core account.</p>
+ </div> 
+
+ <!-- SUMMARY CARDS -->
+ <div class="dashboard-summary">
+ <div class="summary-card">
+ <div class="summary-icon">
+ <i class="fa-solid fa-bag-shopping"></i>
+ </div>
+ <p>Total Orders</p>
+ <h2 id="total-orders">0</h2>
+ </div>
+
+ <div class="summary-card">
+ <div class="summary-icon">
+ <i class="fa-solid fa-box-open"></i> 
+ </div> 
+
+ <p>Products Purchased</p> 
+ <h2 id="total-products">0</h2>
+ </div> 
+
+ <div class="summary-card">
+ <div class="summary-icon"> 
+ <i class="fa-solid fa-wallet"></i>
+ </div> 
+
+ <p>Total Amount Spent</p>
+ <h2 id="total-spent">₦0</h2>
+ </div>
+ </div>
+ </section>
+
+ <!-- PROFILE SECTION -->
+ <section id="profile" class="dashboard-section">
+ <div class="dashboard-section-header">
+ <h2>My Profile</h2>
+ <a href="#settings">Edit Profile</a></div> 
+
+ <div class="profile-info">
+ <div class="profile-field">
+ <label>Full Name</label>
+ <p id="profile-name">Customer Name</p>
+ </div> 
+
+ <div class="profile-field">
+ <label>Email Address</label>
+ <p id="profile-email">customer@email.com</p>
+ </div> 
+
+ <div class="profile-field">
+ <label>Phone Number</label>
+ <p id="profile-phone">Not provided</p>
+ </div>
+
+ <div class="profile-field">
+ <label>Delivery Address</label>
+ <p id="profile-address">Not provided</p>
+ </div> 
+
+ <div class="profile-field">
+ <label>State</label>
+ <p id="profile-state">Not provided</p>
+ </div> 
+
+ <div class="profile-field">
+ <label>Account Created</label>
+ <p id="profile-date">Not available</p>
+ </div>
+ </div>
+ </section>
+
+ <!-- ORDER HISTORY -->
+ <section id="orders" class="dashboard-section">
+ <div class="dashboard-section-header">
+ <h2>Recent Orders</h2>
+ <a href="#orders">View All Orders</a>
+ </div> 
+
+ <div class="order-table-wrapper">
+ <table class="order-table">
+ <thead>
+ <tr>
+ <th>Order ID</th>
+ <th>Products</th>
+ <th>Quantity</th>
+ <th>Amount</th>
+ <th>Date & Time</th>
+ <th>Status</th>
+ </tr>
+ </thead>
+
+ <tbody id="order-history">
+ <tr>
+ <td colspan="6">
+ No orders have been placed yet.
+ </td>
+ </tr>
+ </tbody>
+ </table>
+ </div>
+ </section>
+
+ <!-- ADDRESSES SECTION -->
+ <section id="addresses" class="dashboard-section">
+ <div class="dashboard-section-header">
+ <h2>Delivery Addresses</h2>
+ </div>
+ <p>No saved delivery addresses yet.</p>
+ </section>
+
+ <!-- SETTINGS SECTION -->
+ <section id="settings" class="dashboard-section">
+ <div class="dashboard-section-header">
+ <h2>Account Settings</h2>
+ </div>
+ <p>Your account information and preferences will appear here.</p>
+ </section>
+ </main>
+ </div>
+
+ <!-- JAVASCRIPT -->
+ <script src="script.js" defer></script>
+
+ </body>
+ </html>

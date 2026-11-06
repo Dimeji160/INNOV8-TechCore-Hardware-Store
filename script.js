@@ -300,14 +300,12 @@
  }
  
  //Redirects the user's browser to the checkout.html page (this only runs if the cart has items in it).
- window.location.href = "checkout.html";
+ window.location.href = "index.html";
  });
  
  // Close the empty cart modal
  //Checks if the modal's close button (like an "X" or "Close" button) exists on the current page to prevent errors.
  if (closeModal) { closeModal.addEventListener("click", function() {
- 
- 
  });
  }
 
@@ -319,10 +317,10 @@
  //Checks if the delivery location dropdown or selection element exists on the page to prevent errors.
  if (deliveryLocation) {
  
-    //Tells the browser to listen for when the user chooses or switches to a different location in the dropdown menu.
+ //Tells the browser to listen for when the user chooses or switches to a different location in the dropdown menu.
  deliveryLocation.addEventListener("change", function() {
  
-    //• Immediately calls your summary function to recalculate the delivery fee and update the grand total on screen the moment the user selects a new location.
+ //• Immediately calls your summary function to recalculate the delivery fee and update the grand total on screen the moment the user selects a new location.
  updateCheckoutSummary();
  });
  }
@@ -334,7 +332,7 @@
  //Declares (creates) the reusable JavaScript function named updateCheckoutSummary.
  function updateCheckoutSummary() {
  
-    // Find checkout page elements
+ // Find checkout page elements
  //Finds the HTML element (usually a <div> or <ul>) where the list of products in the checkout will be displayed.
  const checkoutItems = document.querySelector("#checkout-items");
  
@@ -367,7 +365,7 @@
  //• Starts a loop that goes through your cart array one item at a time, beginning at index 0 and running until it hits the end of the array.
  for (let i = 0; i < cart.length; i++) {
  
-    //Creates a brand-new, empty HTML paragraph element (<p>) in the browser memory for the current product.
+ //Creates a brand-new, empty HTML paragraph element (<p>) in the browser memory for the current product.
  const item = document.createElement("p");
  
  //• Sets the text inside that new paragraph to show the item's name followed by its price, formatting the currency with commas (e.g., ₦1,500) specifically for Nigerian Naira presentation styles.
@@ -420,10 +418,10 @@
  //Checks if the form was actually found on the page to prevent JavaScript errors if you are on a page without a checkout form.
  if (checkoutForm) {
  
-    //Tells the browser to listen for when the user tries to submit the form (by clicking a "Submit" or "Place Order" button) and passes the submit event data into the function.
+ //Tells the browser to listen for when the user tries to submit the form (by clicking a "Submit" or "Place Order" button) and passes the submit event data into the function.
  checkoutForm.addEventListener("submit", function(event) {
  
-    //Stops the default browser behavior, which prevents the page from automatically refreshing or reloading when the form is submitted.
+ //Stops the default browser behavior, which prevents the page from automatically refreshing or reloading when the form is submitted.
  event.preventDefault();
  
  //• Searches the form for whichever radio button in the "payment" group is currently selected/ticked by the user and saves it.
@@ -433,7 +431,7 @@
  //Checks if the number of items inside your cart array is exactly zero, meaning the shopping cart is completely empty.
  if (cart.length === 0) {
  
-    //Pops up a native browser alert window with this text message to warn the user that they cannot check out without items.
+ //Pops up a native browser alert window with this text message to warn the user that they cannot check out without items.
  alert("Your cart is empty. Please add a product first.");
  
  //• Stops the execution of the entire function immediately right here, blocking the user from proceeding to payment or order placement.
@@ -444,18 +442,76 @@
  //Checks if the paymentMethod element or value is missing, empty, or false (the exclamation mark ! means "not" or "is empty").
  if (!paymentMethod) {
  
-    //Pops up a native browser alert window with this text message to warn the user they forgot to choose a payment option.
+ //Pops up a native browser alert window with this text message to warn the user they forgot to choose a payment option.
  alert("Please select a payment method.");
  
  //• Stops the entire function immediately right here, preventing the code below it (like placing the order or showing the success modal) from running until the user selects a method.
  return;
  }
+
+ /* =====================================
+ SAVE ORDER TO CUSTOMER PROFILE
+ ===================================== */
+
+ // Get the currently signed-in customer
+ const currentUser = JSON.parse(
+ localStorage.getItem("innov8CurrentUser")
+ );
+
+ // Make sure the customer is signed in
+ if (!currentUser) {
+ alert("Please sign in before placing your order.");
+ window.location.href = "account.html";
+ return;
+ }
+
+ // Calculate the product subtotal
+ let subtotal = 0; 
+
+ for (let i = 0; i < cart.length; i++) {
+ subtotal += cart[i].price;
+ }
+
+ // Get the delivery charge
+ const delivery = deliveryLocation
+ ? Number(deliveryLocation.value)
+ : 0;
+
+ // Calculate the final order amount
+ const finalTotal = subtotal + delivery;
+
+ // Get previously saved orders
+ let orders = JSON.parse(
+ localStorage.getItem("innov8Orders")
+ ) || [];
+
+ // Create a new order
+ const newOrder = {
+ orderId: "ORD-" + Date.now(),
+ userId: currentUser.id,
+ products: [...cart],
+ quantity: cart.length,
+ subtotal: subtotal,
+ delivery: delivery,
+ total: finalTotal,
+ paymentMethod: paymentMethod.value,
+ date: new Date().toISOString(),
+ status: "Pending"
+ };
+
+ // Save the new order
+ orders.push(newOrder);
+
+ localStorage.setItem(
+ "innov8Orders",
+ JSON.stringify(orders)
+ );
  
  // Show the selected payment method in the modal
  //Checks if both the text element inside the modal (modalPaymentMethod) and the modal container (successModal) exist on the page to prevent errors.
  if (modalPaymentMethod && successModal) {
  
-    //Grabs the value the user selected (like "Credit Card" or "PayPal") from a form input and inserts it as plain text into the modal.
+ //Grabs the value the user selected (like "Credit Card" or "PayPal") from a form input and inserts it as plain text into the modal.
  modalPaymentMethod.textContent = paymentMethod.value;
  
  //• Changes the CSS of the modal container to display: "flex", which makes the popup appear on the screen and uses Flexbox to align its contents beautifully (usually centering it).
@@ -481,10 +537,10 @@
  //Checks if the "OK" button and the modal element exist on the page before doing anything else.
  if (closeSuccessModal && successModal) {
  
-    //Tells the browser to listen for a click on the "OK" button and defines a function to run when it happens.
+ //Tells the browser to listen for a click on the "OK" button and defines a function to run when it happens.
  closeSuccessModal.addEventListener("click", function() {
  
-    //Changes the CSS of the modal to hidden so it instantly disappears from the user's screen.
+ //Changes the CSS of the modal to hidden so it instantly disappears from the user's screen.
  successModal.style.display = "none";
  });
  }
@@ -556,3 +612,286 @@
  //It tells JavaScript to repeat the slideshow instructions every four seconds.
  }, 4000);
  }
+
+ /* =========================================
+ ACCOUNT REGISTRATION AND LOGIN
+ ========================================= */
+
+ (function () {
+
+ // Get account page elements
+ const signupForm = document.getElementById("signup-form");
+ const signinForm = document.getElementById("signin-form");
+ const signupTab = document.getElementById("signup-tab");
+ const signinTab = document.getElementById("signin-tab");
+ const signupButton = document.getElementById("signup-button");
+ const signinButton = document.getElementById("signin-button");
+ const verificationSection = document.getElementById("verification-section");
+ const verificationCode = document.getElementById("verification-code");
+ const verifyButton = document.getElementById("verify-button");
+ const accountMessage = document.getElementById("account-message"); 
+
+ // Get saved customers
+ let users = JSON.parse(localStorage.getItem("innov8Users")) || [];
+
+ // Store temporary verification information
+ let pendingUser = null;
+ let generatedCode = null;
+ let accountAction = null;
+
+ // Switch to Sign Up
+ if (signupTab && signinTab) {
+ signupTab.addEventListener("click", function () {
+ signupForm.hidden = false;
+ signinForm.hidden = true;
+ verificationSection.hidden = true;
+ signupTab.classList.add("active");
+ signinTab.classList.remove("active");
+ accountMessage.textContent = "";
+ });
+
+ // Switch to Sign In
+ signinTab.addEventListener("click", function () {
+ signinForm.hidden = false;
+ signupForm.hidden = true;
+ verificationSection.hidden = true;
+ signinTab.classList.add("active");
+ signupTab.classList.remove("active");
+ accountMessage.textContent = "";
+ });
+ }
+
+ // Generate a six-digit demonstration code
+ function generateVerificationCode() {
+ return Math.floor(100000 + Math.random() * 900000).toString();
+ }
+
+ // Start verification
+ function startVerification(user, action) {
+ pendingUser = user;
+ accountAction = action;
+ generatedCode = generateVerificationCode();
+ signupForm.hidden = true;
+ signinForm.hidden = true;
+ verificationSection.hidden = false;
+ accountMessage.textContent =
+ "DEMO ONLY: Your verification code is " + generatedCode;
+ verificationCode.value = "";
+ }
+
+ // Sign Up
+ if (signupButton) {
+ signupButton.addEventListener("click", function () {
+ if (!signupForm.reportValidity()) {
+ return;
+ }
+ const name = document.getElementById("signup-name").value.trim();
+ const email = document.getElementById("signup-email").value.trim().toLowerCase();
+
+ // Check whether the email already exists
+ const existingUser = users.find(function (user) {
+ return user.email === email;
+ });
+
+ if (existingUser) {
+ accountMessage.textContent =
+ "This email already has an account. Please sign in.";
+ return;
+ }
+
+ const newUser = {
+ id: Date.now().toString(),
+ name: name,
+ email: email,
+ phone: "",
+ address: "",
+ state: "",
+ createdAt: new Date().toISOString()
+ };
+
+ startVerification(newUser, "signup");
+ });
+ }
+
+ // Sign In
+ if (signinButton) {
+ signinButton.addEventListener("click", function () {
+ if (!signinForm.reportValidity()) {
+ return;
+ }
+ const email = document.getElementById("signin-email").value.trim().toLowerCase(); 
+
+ // Find registered customer
+ const existingUser = users.find(function (user) {
+ return user.email === email;
+ });
+
+ if (!existingUser) {
+ accountMessage.textContent =
+ "No account found with this email. Please sign up.";
+ return;
+ } 
+
+ startVerification(existingUser, "signin");
+ });
+ }
+
+ // Verify email code
+ if (verifyButton) {
+ verifyButton.addEventListener("click", function () {
+ const enteredCode = verificationCode.value.trim();
+
+ if (!enteredCode) {
+ accountMessage.textContent = "Please enter your verification code.";
+ return;
+ }
+
+ if (enteredCode !== generatedCode) {
+
+ accountMessage.textContent = "Incorrect verification code. Try again.";
+ return;
+ }
+
+ // Save newly registered customer
+ if (accountAction === "signup") {
+ users.push(pendingUser);
+ localStorage.setItem("innov8Users", JSON.stringify(users));
+ }
+
+ // Save the current customer's session
+ localStorage.setItem("innov8CurrentUser", JSON.stringify(pendingUser));
+
+ // Open customer dashboard
+ window.location.href = "index.html";
+ });
+ }
+
+ /* =========================================
+ CUSTOMER DASHBOARD
+ ========================================= */
+
+ const dashboardPage = document.querySelector(".dashboard-page");
+ if (dashboardPage) {
+ const currentUser = JSON.parse(localStorage.getItem("innov8CurrentUser"));
+
+ // Require a logged-in customer
+ if (!currentUser) {
+ window.location.href = "account.html";
+ return;
+ }
+
+ // Display customer name and email
+ const dashboardName = document.querySelector(".dashboard-user h3");
+ const dashboardEmail = document.querySelector(".dashboard-user p");
+ const welcomeHeading = document.querySelector(".dashboard-welcome h1");
+ const avatar = document.querySelector(".user-avatar");
+
+ if (dashboardName) {
+ dashboardName.textContent = currentUser.name;
+ }
+
+ if (dashboardEmail) {
+ dashboardEmail.textContent = currentUser.email;
+ }
+
+ if (welcomeHeading) {
+ welcomeHeading.textContent = "Welcome Back, " + currentUser.name + "!";
+ }
+
+ if (avatar) {
+ avatar.textContent = currentUser.name.charAt(0).toUpperCase();
+ }
+
+ // Display profile information
+ document.getElementById("profile-name").textContent = currentUser.name;
+ document.getElementById("profile-email").textContent = currentUser.email;
+ document.getElementById("profile-phone").textContent = currentUser.phone || "Not provided";
+ document.getElementById("profile-address").textContent = currentUser.address || "Not provided";
+ document.getElementById("profile-state").textContent = currentUser.state || "Not provided";
+ document.getElementById("profile-date").textContent =
+ new Date(currentUser.createdAt).toLocaleDateString("en-NG");
+
+ // Load this customer's orders
+ const allOrders = JSON.parse(localStorage.getItem("innov8Orders")) || [];
+ const customerOrders = allOrders.filter(function (order) {
+ return order.userId === currentUser.id;
+ });
+
+ // Calculate dashboard totals
+ const totalOrders = customerOrders.length;
+ const totalProducts = customerOrders.reduce(function (total, order) {
+ return total + order.quantity;
+ }, 0);
+
+ const totalSpent = customerOrders.reduce(function (total, order) {
+ return total + order.total;
+ }, 0);
+
+ document.getElementById("total-orders").textContent = totalOrders;
+ document.getElementById("total-products").textContent = totalProducts;
+ document.getElementById("total-spent").textContent =
+ totalSpent.toLocaleString("en-NG", {
+ style: "currency",
+ currency: "NGN",
+ maximumFractionDigits: 0
+ });
+
+ // Display order history
+ const orderHistory = document.getElementById("order-history");
+
+ if (customerOrders.length > 0) {
+ orderHistory.innerHTML = "";
+ customerOrders.forEach(function (order) {
+ const row = document.createElement("tr");
+ const date = new Date(order.date);
+ row.innerHTML = `
+ <td>${order.id}</td>
+ <td>${order.products.map(product => product.name).join(", ")}</td>
+ <td>${order.quantity}</td>
+ <td>${order.total.toLocaleString("en-NG", {
+ style: "currency",
+ currency: "NGN",
+ maximumFractionDigits: 0
+ })}</td>
+ <td>${date.toLocaleDateString("en-NG")} ${date.toLocaleTimeString("en-NG")}</td>
+ <td><span class="order-status">${order.status}</span></td>
+ `;
+
+ orderHistory.appendChild(row);
+ });
+ }
+
+ // Logout
+ const logoutButtons = document.querySelectorAll(".dashboard-logout");
+ logoutButtons.forEach(function (button) {
+ button.addEventListener("click", function (event) {
+ event.preventDefault();
+ localStorage.removeItem("innov8CurrentUser");
+ window.location.href = "account.html";
+ });
+ });
+ }
+ })();
+
+ /* =====================================
+   MY ACCOUNT NAVIGATION
+ ===================================== */
+
+ (function () {
+ const accountLink = document.querySelector(".account-link");
+
+ if (accountLink) {
+ accountLink.addEventListener("click", function(event) {
+ event.preventDefault();
+ const currentUser = localStorage.getItem("innov8CurrentUser");
+
+ if (currentUser) {
+ // Customer is signed in
+ window.location.href = "dashboard.html#overview";
+ } else {
+ // Customer is not signed in
+ window.location.href = "account.html";
+ }
+ });
+ }
+ })();

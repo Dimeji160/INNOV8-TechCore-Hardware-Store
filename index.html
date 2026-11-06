@@ -1,6 +1,13 @@
  <!DOCTYPE html>
  <html lang="en">
  <head>
+  <script>
+        const currentUser = localStorage.getItem("innov8CurrentUser");
+
+        if (!currentUser) {
+            window.location.replace("account.html");
+        }
+    </script>
  <meta charset="UTF-8">
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
  <title>INNOV8 TechCore Hardware Store</title>
@@ -43,10 +50,12 @@
  <li><a href="#home">Home</a></li> 
  <li><a href="#about">About</a></li>
  <a href="cart.html" class="cart-link">Cart</a>
- <a href="checkout.html" class="checkout-link">Checkout</a>    
+ <a href="checkout.html" class="checkout-link">Checkout</a>
+ <a href="account.html" class="account-link">
+ <i class="fa-regular fa-user"></i> My Account </a>
  </ul>
  </nav>
-
+ 
  <!-- Breadcrumb Navigation -->
  <nav class="breadcrumb" aria-label="Breadcrumb">
  <a href="#home">Home</a>
